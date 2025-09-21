@@ -18,7 +18,7 @@ public class OtpController {
     @PostMapping("/send")
     public ResponseEntity<ApiResponse<ApiResponse.SendOtpResponse>> sendOtp(@RequestParam String phoneNumber) {
         String otp = otpService.generateOtp(phoneNumber);
-        ApiResponse.SendOtpResponse sendOtpResponse = new ApiResponse.SendOtpResponse(phoneNumber, otp)
+        ApiResponse.SendOtpResponse sendOtpResponse = new ApiResponse.SendOtpResponse(phoneNumber, otp);
         ApiResponse<ApiResponse.SendOtpResponse> response = new ApiResponse<>(true, "OTP sent successfully", sendOtpResponse);
         return ResponseEntity.ok(response);
     }
