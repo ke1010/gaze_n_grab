@@ -1,28 +1,36 @@
 package app.gazengrab.org.controller;
 
-import app.gazengrab.org.model.Restaurant;
+import app.gazengrab.org.ApiResponse;
+import app.gazengrab.org.model.request.RestaurantRequest;
+import app.gazengrab.org.model.response.RestaurantResponse;
 import app.gazengrab.org.service.RestaurantService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+
 @RestController
 @RequestMapping("/api/restaurants")
+@RequiredArgsConstructor
 public class RestaurantController {
 
-    private final RestaurantService service;
+    private final RestaurantService restaurantService;
 
-    public RestaurantController(RestaurantService service) {
-        this.service = service;
-    }
+    @PostMapping("/nearby")
+    public ResponseEntity<ApiResponse<List<RestaurantResponse>>> getNearbyRestaurants(
+            @RequestBody RestaurantRequest request) {
 
-    @GetMapping
-    public List<Restaurant> getRestaurants() {
-        return service.getAllRestaurants();
-    }
+        double defaultRadiusKm = 5.0;
 
-    @PostMapping
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
-        return service.addRestaurant(restaurant);
+        List<RestaurantResponse> restaurants = restaurantService.getNearbyRestaurants(
+                request.getLatitude(),
+                request.getLongitude(),
+                defaultRadiusKm
+        );
+
+        return ResponseEntity.ok(ApiResponse.success("Nearby restaurants found", restaurants));
     }
 }

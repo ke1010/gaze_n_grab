@@ -1,7 +1,7 @@
 package app.gazengrab.org.repository;
 
 
-import app.gazengrab.org.model.User;
+import app.gazengrab.org.model.request.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 

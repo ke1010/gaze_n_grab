@@ -1,24 +1,21 @@
-package app.gazengrab.org.model;
+package app.gazengrab.org.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "restaurants")
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Restaurant {
+public class RestaurantResponse {
+
     @Id
     private String id;
     private String name;
     private double rating;
-    private double latitude;
-    private double longitude;
+    private String location;
     private String imageUrl;
 }

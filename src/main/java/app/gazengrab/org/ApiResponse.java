@@ -13,32 +13,12 @@ public  class ApiResponse<T> {
     private String message;
     private T data;
 
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class SendOtpResponse{
-        private String phoneNumber;
-        private String otp;
+    public static <T> ApiResponse<T> success(String message, T data) {
+        return new ApiResponse<>(true, message, data);
     }
 
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class VerifyOtpResponse{
-        private String phoneNumber;
-        private String otp;
-        private Boolean verified;
+    public static <T> ApiResponse<T> error(String message) {
+        return new ApiResponse<>(false, message, null);
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Category {
-        @Id
-        private String id;
-        private String name;
-        private String iconUrl;
-    }
 }

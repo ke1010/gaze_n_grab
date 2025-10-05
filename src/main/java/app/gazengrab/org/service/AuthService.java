@@ -1,16 +1,16 @@
 package app.gazengrab.org.service;
 
-
-import app.gazengrab.org.model.User;
+import app.gazengrab.org.model.request.User;
 import app.gazengrab.org.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 @Service
-public class OtpService {
+public class AuthService {
     private final UserRepository userRepository;
 
-    public OtpService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

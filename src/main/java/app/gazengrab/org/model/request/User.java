@@ -1,4 +1,4 @@
-package app.gazengrab.org.model;
+package app.gazengrab.org.model.request;
 
 
 import org.springframework.data.annotation.Id;
