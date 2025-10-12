@@ -3,19 +3,15 @@ package app.gazengrab.org.model;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document(collection = "restaurants")
-public class Restaurant {
+@Document(collection = "categories")
+public class Category {
     @Id
     private String id;
     private String name;
-    private double rating;
-    private double latitude;
-    private double longitude;
-    private double radiusKm;
+
+    @Field("imgUrl")
     private String imageUrl;
-    private List<String> categoryIds;
 }
