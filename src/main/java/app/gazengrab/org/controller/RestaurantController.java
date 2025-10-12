@@ -19,7 +19,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    @PostMapping("/nearby")
+    @PostMapping("/recommended")
     public ResponseEntity<ApiResponse<List<RestaurantResponse>>> getNearbyRestaurants(
             @RequestBody RestaurantRequest request) {
 

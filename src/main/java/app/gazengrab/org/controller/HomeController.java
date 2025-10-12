@@ -10,16 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/home")
+@RequestMapping("/api/restaurants")
 @RequiredArgsConstructor
 public class HomeController {
 
     private final HomeService homeService;
 
-    @PostMapping
+    @PostMapping("/nearby")
     public ResponseEntity<ApiResponse<HomeResponse>> getHomeData(@RequestBody LocationRequest request) {
         HomeResponse homeResponse = homeService.getHomeData(request);
-        ApiResponse<HomeResponse> response = new ApiResponse<>(true, "Restaurants", homeResponse);
+        ApiResponse<HomeResponse> response = new ApiResponse<>(true, "restaurants fetched successfully", homeResponse);
         return ResponseEntity.ok(response);
     }
 }
