@@ -1,15 +1,20 @@
 package app.gazengrab.org.service;
 
 import app.gazengrab.org.model.Category;
+import app.gazengrab.org.model.Offers;
 import app.gazengrab.org.model.Restaurant;
 import app.gazengrab.org.model.request.LocationRequest;
 import app.gazengrab.org.model.response.HomeResponse;
+import app.gazengrab.org.model.response.OfferResponse;
 import app.gazengrab.org.model.response.RestaurantResponse;
 import app.gazengrab.org.repository.CategoryRepository;
+import app.gazengrab.org.repository.OfferRepository;
 import app.gazengrab.org.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +24,9 @@ public class HomeService {
 
     private final RestaurantRepository restaurantRepository;
     private final CategoryRepository categoryRepository;
+
+    private final OfferRepository offerRepository;
+
 
     private static final double DEFAULT_RADIUS_KM = 5.0;
 
@@ -79,9 +87,28 @@ public class HomeService {
                         .build())
                 .collect(Collectors.toList());
 
+
+
+        Instant now = Instant.now();
+        List<Offers> activeDeals = offerRepository.findByIsActiveTrue();
+
+        List<OfferResponse> offerResponses = activeDeals.stream()
+                .map(d -> OfferResponse.builder()
+                        .title(d.getTitle())
+                        .description(d.getDescription())
+                        .category(d.getCategory())
+                        .imageUrl(d.getImageUrl())
+                        .discountPercent(d.getDiscountPercent())
+                        .build())
+                .collect(Collectors.toList());
+        System.out.println("Active deals found: " + activeDeals.size());
+        activeDeals.forEach(System.out::println);
+
+
         return HomeResponse.builder()
                 .categories(categorySummaries)
                 .restaurants(restaurantResponse)
+                .offers(offerResponses)
                 .build();
     }
 }

@@ -16,6 +16,8 @@ public class HomeResponse {
     private List<CategorySummary> categories;
     private List<RestaurantResponse> restaurants;
 
+    private List<OfferResponse> offers;
+
     @Data
 
     @Builder
