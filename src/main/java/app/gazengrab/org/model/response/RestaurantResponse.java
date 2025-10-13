@@ -16,6 +16,9 @@ public class RestaurantResponse {
     private String id;
     private String name;
     private double rating;
-    private String location;
     private String imageUrl;
+    private String address;
+    private double latitude;
+    private double longitude;
+    private double distanceKm;
 }

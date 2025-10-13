@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HomeResponse {
     private List<CategorySummary> categories;
-    private List<Restaurant> restaurants;
+    private List<RestaurantResponse> restaurants;
 
     @Data
 

@@ -1,10 +1,10 @@
 package app.gazengrab.org.service;
 
-
 import app.gazengrab.org.model.Category;
 import app.gazengrab.org.model.Restaurant;
 import app.gazengrab.org.model.request.LocationRequest;
 import app.gazengrab.org.model.response.HomeResponse;
+import app.gazengrab.org.model.response.RestaurantResponse;
 import app.gazengrab.org.repository.CategoryRepository;
 import app.gazengrab.org.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,8 @@ public class HomeService {
 
     private final RestaurantRepository restaurantRepository;
     private final CategoryRepository categoryRepository;
+
+    private static final double DEFAULT_RADIUS_KM = 5.0;
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         double R = 6371;
@@ -35,8 +37,30 @@ public class HomeService {
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
 
         List<Restaurant> nearbyRestaurants = allRestaurants.stream()
-                .filter(r -> calculateDistance(req.getLatitude(), req.getLongitude(),
-                        r.getLatitude(), r.getLongitude()) <= req.getRadiusKm())
+                .map(r -> {
+                    double distance = calculateDistance(
+                            req.getLatitude(), req.getLongitude(),
+                            r.getLatitude(), r.getLongitude()
+                    );
+
+                    distance = Math.round(distance * 10.0) / 10.0;
+                    r.setDistanceKm(distance);
+                    return r;
+                })
+                .filter(r -> r.getDistanceKm() <= DEFAULT_RADIUS_KM)
+                .collect(Collectors.toList());
+
+        List<RestaurantResponse> restaurantResponse = nearbyRestaurants.stream()
+                .map(r -> RestaurantResponse.builder()
+                        .id(r.getId())
+                        .name(r.getName())
+                        .rating(r.getRating())
+                        .imageUrl(r.getImageUrl())
+                        .address(r.getAddress())
+                        .latitude(r.getLatitude())
+                        .longitude(r.getLongitude())
+                        .distanceKm(r.getDistanceKm())
+                        .build())
                 .collect(Collectors.toList());
 
         Map<String, Long> categoryCountMap = nearbyRestaurants.stream()
@@ -57,7 +81,7 @@ public class HomeService {
 
         return HomeResponse.builder()
                 .categories(categorySummaries)
-                .restaurants(nearbyRestaurants)
+                .restaurants(restaurantResponse)
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package app.gazengrab.org.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -15,7 +16,9 @@ public class Restaurant {
     private double rating;
     private double latitude;
     private double longitude;
-    private double radiusKm;
+    private String address;
     private String imageUrl;
     private List<String> categoryIds;
+    @Transient
+    private double distanceKm;
 }
