@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: gaze-n-grab
+    env: java
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/food-delivery-app-1.0.0.jar
+    plan: free
